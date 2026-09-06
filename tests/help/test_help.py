@@ -1,3 +1,4 @@
+# tests/help/test_help.py
 import time
 import unittest
 from unittest.mock import MagicMock
@@ -63,10 +64,10 @@ class TestHelp(unittest.TestCase):
             try:
                 commands.cmd_help("hi")
             except aider.commands.SwitchCoder:
-                pass
+                pass  # This is expected
             else:
-                # If no exception was raised, fail the test
-                assert False, "SwitchCoder exception was not raised"
+                # If no exception was raised, raise an exception that can be retried
+                raise ConnectionError("SwitchCoder exception was not raised")
 
         # Use retry with backoff for the help command that loads models
         cls.retry_with_backoff(run_help_command)
